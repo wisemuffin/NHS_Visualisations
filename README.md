@@ -14,6 +14,15 @@ Aim to add the following functionality by using several libraries in Python:
 * 111 Program
 * workforce
 
+# Dependancies
+* Built using Python 3.6.1
+* pip install dash
+
+# Getting Started
+* Move all files to local folder
+* Run the app with: $python app.py
+* Visit e.g. http:127.0.0.1:8050/ in your web browser (or what ever http site is shown after running the app.py)
+
 ## Notebooks
 * Jupyter Notebooks are an excelent way for others to reproduce my anaylsis
 * http://nbviewer.jupyter.org/github/wisemuffin/Jupyter-Notebooks-Learning/blob/master/myCS50project/NHS_111_Programme.ipynb
