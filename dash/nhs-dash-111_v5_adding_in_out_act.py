@@ -55,7 +55,7 @@ df_out_act= df_out_act[df_out_act["Age Group"] != "Total"]
 df_out_act.head(3)
 
 # Define the sorter
-sorter = ['0', '1-4', '5-9', '10-14', '15', '16', '17', '18', '19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85-89', '90-120', 'Unknown']
+sorter = ['0', '1-4', '5-9', '5-9 ', '10-14', '15', '16', '17', '18', '19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85-89', '90-120', 'Unknown']
 
 # Create the dictionary that defines the order for sorting
 sorterIndex = dict(zip(sorter,range(len(sorter))))
@@ -92,29 +92,21 @@ app.config['suppress_callback_exceptions']=True # used when assigning callbacks 
 # Choose the CSS styly you like
 app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
-markdown_text = '''
-### Dash and Markdown
 
-Dash apps can be written in Markdown.
-Dash uses the [CommonMark](http://commonmark.org/)
-specification of Markdown.
-Check out their [60 Second Markdown Tutorial](http://commonmark.org/help/)
-if this is your first introduction to Markdown!
-'''
+tabs = {1:'Outpatient Activity 2016-17', 2:'111 Program'}
 
 app.layout = html.Div(children=[
-    html.H1(children='NHS analysis'),
-
-    html.Div(children='''
-        Powered by Dash: A web application framework for Python.
-    '''),
-
-    dcc.Markdown(children=markdown_text),
+    html.Div([
+        html.H1(children='NHS analysis', style = {'display': 'inline-block'}),
+        html.Img(src='http://survation.com/wp-content/uploads/2014/12/NHS-logo.jpg', style = {'position' : 'absolute', 'right':'0px', 'height':'5.5%', 'width':'5.5%', 'padding' : '10px'})
+        ],
+        style = {'display': 'inline-block'}
+    ),
 
     # tabs to navigate between analysis
     dcc.Tabs(
         tabs=[
-            {'label': 'Tab {}'.format(i), 'value': i} for i in range(1, 5)
+            {'label': '{}'.format(v), 'value': k} for k, v in tabs.items()
         ],
         value=1,
         id='tabs'
@@ -149,8 +141,15 @@ START : Tab tab-output
     [Input(component_id='tabs', component_property='value')]
 )
 def set_tab_to_display(tab):
-    if tab == 1:
+    if tab == 2:
         tab_display = html.Div(children=[
+            html.H1(children=tabs[2]),
+            dcc.Markdown(children='''The data is taken from the [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/). NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when:  
+            1. it’s not a life threatening situation, and therefore is less urgent than a 999 call  
+            2. the GP isn’t an option, for instance when the caller is away from home  
+            3. the caller feels they cannot wait and is simply unsure of which service they require  
+            4. the caller requires reassurance about what to do next 
+            '''),
 
             html.Div(children=[
 
@@ -178,22 +177,26 @@ def set_tab_to_display(tab):
 
 
         ])
-    elif tab == 2:
+    elif tab == 1:
         tab_display = html.Div(children=[
-            html.H1(children='in progress at the mo'),
+            html.H1(children=tabs[1]),
+            dcc.Markdown(children='''The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, appointments and attendances for patients admitted to NHS hospitals in England.'''),
 
             html.Div(children=[
-                html.Div(
-                    html.Button(dimension_out_act_options[0], id='button_2_out_act'),
-                    style={'width': '10%', 'display': 'inline-block'}
-                    ),
-                html.Div(
-                    html.Button(dimension_out_act_options[1], id='button_2_out_act'),
-                    style={'width': '10%', 'display': 'inline-block'}
-                    )
-            ],
-            style={'padding': '5px'}
-            )
+                dcc.Dropdown(
+                    id = 'dimension_dropdown_out_act',
+                    options=[
+                        dict(label = dimension_out_act_options[i],value = dimension_out_act_options[i]) for i in range (0, len(dimension_out_act_options))
+                    ],
+                    value = dimension_out_act_options[0],
+                    #style={'width': '48%'}
+                )],
+                style={'width': '15%', 'display': 'inline-block'}
+            ),
+
+            dcc.Graph(id='nhs-out-act-graph-bar'),
+            dcc.Graph(id='nhs-out-act-graph-donought')
+
             ])
 
 
@@ -216,12 +219,100 @@ def set_tab_to_display(tab):
 """
 START : NHS_out_act_tab-output
 """
-# @app.callback(
-#     Output(component_id='nhs-out-act-graph-bar', component_property='figure'),
-#     [Input(component_id='dimension_dropdown', component_property='value'),
-#     Input(component_id='dimension_element_dropdown', component_property='value')]
-# )
-# def update_graph(dimension_picker, dimension_element_picker):
+@app.callback(
+    Output(component_id='nhs-out-act-graph-bar', component_property='figure'),
+    [Input(component_id='dimension_dropdown_out_act', component_property='value')]
+)
+def update_graph(dimension_picker):
+    df_grouped = df_out_act.groupby(by=[dimension_picker,'Age Group','Age Group Rank'], as_index=False).sum()
+    df_grouped.dropna(inplace=True)
+
+    # stops traces from exceeding max trace limit
+    if len(dimension[dimension_picker]) >6:
+        len_dimension_picker = 6
+    else:
+        len_dimension_picker = len(dimension[dimension_picker])
+
+
+    data = [go.Bar(
+      type = 'bar',
+      x = df_grouped['Age Group'],
+      y = df_grouped[df_grouped[dimension_picker] == df_grouped[dimension_picker].unique()[i]]['value'], # filters out values not belonging to the ith demension element
+      name = df_grouped[dimension_picker].unique()[i],
+      opacity = 0.8
+    ) for i in range(0, len_dimension_picker)]
+
+    # plot titles and axis labels
+    layout = go.Layout(
+        barmode='stack', # switch between stack and group
+        # title='<b>Outpatient-Activity-2016-17 by  </b>'+dimension_picker,
+        yaxis = dict(
+    #         type = 'log' # switches to a logarythmic scale
+            title='<i>Outpatient volume</i>'
+        ),
+        xaxis=dict(
+            title='<i>Age groups</i>'
+        ) ,
+        bargap=0.1,
+        bargroupgap=0.15
+    )
+
+
+    return go.Figure(data=data, layout=layout)
+
+@app.callback(
+    Output(component_id='nhs-out-act-graph-donought', component_property='figure'),
+    [Input(component_id='dimension_dropdown_out_act', component_property='value')]
+)
+def update_pie_chart_data(dimension_picker):
+
+    values = []
+
+    for option in df_out_act[dimension_picker].dropna().unique():
+        df_grouped = df_out_act.groupby(by=[dimension_picker,'Age Group','Age Group Rank'], as_index=False).sum()
+        value = df_grouped[df_grouped[dimension_picker] == option]['value'].sum()
+        values.append(value)
+
+    fig = {
+      "data": [
+        {
+          "values": values,
+          "labels": df_out_act[dimension_picker].dropna().unique(),
+          # "domain": {"x": [0, .48]},
+          "name": "Outpatient-Activity-2016-17",
+          "hoverinfo":"label+percent+name+value",
+          "hole": .7,
+          "align": 'centre',
+          "type": "pie"
+        }],
+      "layout": {
+            # "title":"Outpatient-Activity-2016-17",
+            "annotations": [
+                {
+                    "font": {
+                        "size": 14
+                    },
+                    "showarrow": False,
+                    "text": "Outpatient-Activity-2016-17",
+                    "align": 'centre',
+                    # "x": 0.12,
+                    "y": 0.5
+                },
+                {
+                    "font": {
+                        "size": 14
+                    },
+                    "showarrow": False,
+                    "text": "{:,.0f}".format(df_out_act['value'].sum()),
+                    "align": 'centre',
+                    # "x": 0.19,
+                    "y": 0.4
+                }
+
+            ]
+        }
+    }
+    return fig
 
 """
 END : NHS_out_act_tab-output
@@ -267,30 +358,31 @@ def update_graph(dimension_picker, dimension_element_picker):
     # Future development: Could allow users to select metrics
     metric_options_selected = metric_options
 
-    return {
-        # use the DataFrame columns for generating data
-        'data' : [go.Scatter(
-            x = df_grouped['Date'],
-            y = df_grouped[metric_options_selected[i]],
-            mode = 'lines',
-            name = metric_options_selected[i],
-    #         text = df_grouped[metric_options_selected[i]],
-            opacity = 0.8,
-        ) for i in range(0, len(metric_options_selected))], # loop through traces
+    # use the DataFrame columns for generating data
+    data = [go.Scatter(
+        x = df_grouped['Date'],
+        y = df_grouped[metric_options_selected[i]],
+        mode = 'lines',
+        name = metric_options_selected[i],
+#         text = df_grouped[metric_options_selected[i]],
+        opacity = 0.8,
+    ) for i in range(0, len(metric_options_selected))] # loop through traces
 
-        # plot titles and axis labels
-        'layout' : go.Layout(
-            barmode='group',#'group', # switch between stack and group
-            title='<b>NHS 111 calls where  </b>'+ dimension_picker+' = '+dimension_element_picker,
-            yaxis = dict(
-                type = 'log', # switches to a logarythmic scale
-                title='<i>Volume</i>'
-            ),
-    #         xaxis=dict(
-    #             title='<i>Date</i>'
-    #         )
-        )
-    }
+    # plot titles and axis labels
+    layout = go.Layout(
+        barmode='group',#'group', # switch between stack and group
+        # title='<b>NHS 111 calls where  </b>'+ dimension_picker+' = '+dimension_element_picker,
+        yaxis = dict(
+            type = 'log', # switches to a logarythmic scale
+            title='<i>Volume</i>'
+        ),
+#         xaxis=dict(
+#             title='<i>Date</i>'
+#         )
+    )
+
+    return go.Figure(data=data, layout=layout)
+
 
 """
 END: NHS_111_tab-output
