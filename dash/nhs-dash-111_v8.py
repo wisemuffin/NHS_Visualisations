@@ -123,29 +123,29 @@ app.layout = html.Div(children=[
         style = {'display': 'inline-block'}
     ),
     
-    #### TRYING OUT DASH EXAMPLE
-    # html.Div([  # subpage 1
-    # 
-    #         # Row 1 (Header)
-    # 
-    #         html.Div([
-    # 
-    #             html.Div([
-    #                 html.H5(
-    #                     'Goldman Sachs Strategic Absolute Return Bond II Portfolio'),
-    #                 html.H6('A sub-fund of Goldman Sachs Funds, SICAV',
-    #                         style={'color': '#7F90AC'}),
-    #             ], className="nine columns padded"),
-    # 
-    #             html.Div([
-    #                 html.H1(
-    #                     [html.Span('03', style={'opacity': '0.5'}), html.Span('17')]),
-    #                 html.H6('Monthly Fund Update')
-    #             ], className="three columns gs-header gs-accent-header padded", style={'float': 'right'}),
-    # 
-    #         ], className="row gs-header gs-text-header"),
-    # ])
-    # html.Br([]),
+    ### TRYING OUT DASH EXAMPLE
+    html.Div([  # subpage 1
+    
+            # Row 1 (Header)
+    
+            html.Div([
+    
+                html.Div([
+                    html.H5(
+                        'Goldman Sachs Strategic Absolute Return Bond II Portfolio'),
+                    html.H6('A sub-fund of Goldman Sachs Funds, SICAV',
+                            style={'color': '#7F90AC'}),
+                ], className="nine columns padded"),
+    
+                html.Div([
+                    html.H1(
+                        [html.Span('03', style={'opacity': '0.5'}), html.Span('17')]),
+                    html.H6('Monthly Fund Update')
+                ], className="three columns gs-header gs-accent-header padded", style={'float': 'right'}),
+    
+            ], className="row gs-header gs-text-header"),
+    ]),
+    html.Br([]),
 
     # tabs to navigate between analysis
     dcc.Tabs(
