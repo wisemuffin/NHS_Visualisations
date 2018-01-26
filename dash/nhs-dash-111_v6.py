@@ -49,6 +49,8 @@ df_filtered = df[df[dimension_picker] == dimension_element_picker]
 # df_filtered = df
 df_grouped = df_filtered.groupby(by=[dimension_picker,'Date'], as_index=False).sum()
 
+df_table_111 = df.loc[0:20]
+
 ''' End : NHS 111 Data prep '''
 
 ''' Start : NHS Hospital Outpatient Activity data prep '''
@@ -191,7 +193,27 @@ def set_tab_to_display(tab):
             style={'padding': '10px'}
             ),
 
-            dcc.Graph(id='nhs-111-graph-bar')
+            dcc.Graph(id='nhs-111-graph-bar'),
+            
+            # html.Div([
+            #     # html.H4('NHS 111'),
+            #     dt.DataTable(
+            #         rows=df_table_111.to_dict('records'),
+            # 
+            #         # optional - sets the order of columns
+            #         columns=sorted(df_table_111.columns),
+            # 
+            #         row_selectable=True,
+            #         filterable=True,
+            #         sortable=True,
+            #         selected_row_indices=[],
+            #         id='table_111'
+            #     ),
+            #     html.Div(id='selected-indexes'),
+            #     dcc.Graph(
+            #         id='graph-111'
+            #     ),
+            # ], className="container")
 
 
         ])
@@ -233,24 +255,13 @@ def set_tab_to_display(tab):
                 )],
                 style={'width': '15%', 'display': 'inline-block'}
             ),
-            html.Div(children=[
-                dcc.Dropdown(
-                    id = 'cancer_type_slider2',
-                    options=[
-                        dict(label = cancer_site[i],value = cancer_site[i]) for i in range (0, len(cancer_site))
-                    ],
-                    value = cancer_site[0],
-                    #style={'width': '48%'}
-                )],
-                style={'width': '15%', 'display': 'inline-block'}
-            ),
 
             dcc.Graph(id='nhs-cancer-graph-bar',
-                style={'height': '60%'},
+                style={'height': '310px'},
                 hoverData={'points': [{'x': cancer_site[0]}]} # inital hover state
             ),
             
-            dcc.Markdown(children='''Hover over a cancer site to change graphs below'''),
+            dcc.Markdown(children=''' Hover over a cancer site to change graphs below'''),
             
             html.Div(children=[
                 dcc.Graph(id='nhs-cancer-graph-line', style={'display': 'inline-block', 'width': '70%'}),
@@ -258,9 +269,9 @@ def set_tab_to_display(tab):
             ],
             style={'display': 'inline-block','width': '100%'}
             ),
-            html.Div( # used to test the hover over functionality
-                html.Pre(id='testhoverdata')
-                )
+            # html.Div( # used to test the hover over functionality
+            #     html.Pre(id='testhoverdata')
+            #     )
             ])
 
 
@@ -376,41 +387,23 @@ def update_graph_cancer_survival_2(hoverData):
 
     return go.Figure(data=data, layout=layout)
 
-# Testing Hover over functionality
-@app.callback(
-    Output(component_id='testhoverdata', component_property='children'),
-    [Input(component_id='cancer_year_slider', component_property='value')]
-    # [Input(component_id='nhs-cancer-graph-bar', component_property='hoverData')]
-    # [Input(component_id='cancer_year_slider', component_property='value')]
-)
-def testhoverdatafunc(date_filter):
-    # return json.dumps(hoverData, indent=2)
-    return str(type(hoverData['points'][0]['x']))
-    # return str(date_filter)
+
 
 @app.callback(
     Output(component_id='nhs-cancer-graph-donought', component_property='figure'),
     [Input(component_id='nhs-cancer-graph-bar', component_property='hoverData'),
     Input(component_id='cancer_year_slider', component_property='value')])
-    # [Input(component_id='cancer_year_slider', component_property='value')]
-    # [Input(component_id='nhs-cancer-graph-bar', component_property='hoverData')]
 
-# def update_graph_cancer_survival_3(hoverData, date_filter):#, cancer_site_filter='Bladder', ):
-# def update_graph_cancer_survival_3(date_filter):
+
 def update_graph_cancer_survival_3(x, y):
-    # cancer_site_filter='Bladder'
     date_filter = y
     cancer_site_filter = x['points'][0]['x']
-    # date_filter = 2015
-    # cancer_site_filter1 = hoverd['points'][0]['x']
     df_filtered = df_cancer[(df_cancer['Cohort'] == date_filter) & (df_cancer['Cancer site'] == cancer_site_filter)]
     df_grouped = df_filtered.groupby(by=['Stage'], as_index=False).sum()
     df_grouped.dropna(inplace=True)
     
     #calculates the whole value of the pie chart
     centre_value_pie = df_grouped['Number of tumours'].sum()
-    # centre_value_pie = df_centre_value_pie[(df_centre_value_pie['Cancer site'] == cancer_site_filter) & (df_centre_value_pie['Cohort'] == date_filter)]['Number of tumours'][0]
-    # centre_of_pie_text = "{:,.0f}".format(centre_value_pie) +' Tumours resulting from ' + cancer_site_filter + " Cancer for the year " + str(date_filter)
 
     data = [go.Pie(
         values = df_grouped['Number of tumours'],
@@ -434,39 +427,6 @@ def update_graph_cancer_survival_3(x, y):
             }
         ]
     )
-            
-    # # cancer_site_filter = hoverData['points'][0]['x']
-    # df_grouped = df_cancer.groupby(by=['Cohort','Cancer site', 'Stage'], as_index=False).sum()
-    # df_grouped.dropna(inplace=True)
-    # 
-    # #calculates the whole value of the pie chart
-    # df_centre_value_pie = df_cancer.groupby(by=['Cohort','Cancer site'], as_index=False).sum()
-    # centre_value_pie = df_centre_value_pie[(df_centre_value_pie['Cancer site'] == cancer_site_filter) & (df_centre_value_pie['Cohort'] == date_filter)]['Number of tumours'][0]
-    # # centre_of_pie_text = "{:,.0f}".format(centre_value_pie) +' Tumours resulting from ' + cancer_site_filter + " Cancer for the year " + str(date_filter)
-    # 
-    # data = [go.Pie(
-    #     values = df_grouped[(df_grouped['Cancer site'] == cancer_site_filter) & (df_grouped['Cohort'] == date_filter)]['Number of tumours'],
-    #     labels = 'Stage: ' + df_cancer['Stage'].astype(str).unique(), #df_grouped['Stage'].unique(),
-    #     type = 'pie',
-    #     hole = 0.7,
-    #     opacity = 0.8),
-    # ]
-    # 
-    # # plot titles and axis labels
-    # layout = go.Layout(
-    #     annotations = [
-    #         {
-    #             "font": {
-    #                 "size": 20
-    #             },
-    #             "showarrow": False,
-    #             "text": str("{:,.0f}".format(centre_value_pie)) +' Tumours', # resulting from ' + cancer_site_filter + " Cancer for the year " + str(date_filter),
-    #             "align": 'centre',
-    #         }
-    #     ]
-    # )
-
-
     return go.Figure(data=data, layout=layout)
 
 
