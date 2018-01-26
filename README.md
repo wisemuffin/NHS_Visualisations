@@ -12,10 +12,10 @@ Daves final project for the Harvard CS50 course
 
 #### Outpatient Activity 2016-17
 
-![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.mp4)
+![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.gif?raw=true)
 
 #### 111 Program
-![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.mp4)
+![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
 
 #### Cancer Survival
 
