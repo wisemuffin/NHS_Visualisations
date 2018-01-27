@@ -1,23 +1,35 @@
 # CS50project
-Daves final project for the Harvard CS50 course
+David Griffiths's final project for the Harvard CS50 course. 
 
 > 
-> The reporting from the UK's [NHS digital](https://digital.nhs.uk/) team is in depth but these publications are not **interactive** (mostly excel based). My aim is build an application that allows the UK public to explore these data sets with some of pythons visualisation libraries.
+> The reporting from the UK's [NHS digital](https://digital.nhs.uk/) team is in depth but these publications are not **interactive** (mostly excel based). My aim is build an application that allows the UK public to explore these data sets dynamically by utilising pythons visualisation libraries.
 >
   
 
-## Dash Application
+## app.py
 
-[Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application.
+[Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application. Examples of the interactivity include:
 
-#### Outpatient Activity 2016-17
+#### Outpatient Activity 2016-17 Tab
+
+*GIF TBC*
+
+#### 111 Program Tab
+
+3d plot of NHS areas across time and performance of calls answered within 60 seconds.
+
 
 ![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.gif?raw=true)
 
-#### 111 Program
-![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
+Time series with geographical dropdown filtering.  
 
-#### Cancer Survival
+*GIF TBC*
+
+#### Cancer Survival Tab
+
+hover over the bar cancer site to filter the below time series and donought charts. 
+
+![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
 
 ## Jupyter Notebooks
 
