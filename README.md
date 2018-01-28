@@ -4,9 +4,11 @@ David Griffiths's final project for the Harvard CS50 course.
 > 
 > The reporting from the UK's [NHS digital](https://digital.nhs.uk/) team is in depth but these publications are not **interactive** (mostly excel based). My aim is build an application that allows the UK public to explore these data sets dynamically by utilising pythons visualisation libraries.
 >
-  
 
-## app.py
+View the [app on heroku](https://nhs-dash-app.herokuapp.com/)
+
+
+## About
 
 [Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application. Examples of the interactivity include:
 
@@ -52,3 +54,12 @@ However if you want to fully replicate this analysis please see the last section
 
 * Run the app with: $python app.py in the command line
 * Visit http:127.0.0.1:8050/ in your web browser (or what ever http site is shown after running the app.py)
+
+## Future Work
+
+'''
+* set up environment.yml so others can use like this https://github.com/czbiohub/singlecell-dash/blob/master/README.md
+* get more ideas from the community at https://community.plot.ly/t/show-and-tell-community-thread-tada/7554
+* fix 3d charts axis
+* improve interactivity of outpatient tab
+'''
