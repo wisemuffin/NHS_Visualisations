@@ -12,7 +12,6 @@ import numpy as np
 # test imports
 import json
 
-
 ''' Start : NHS cancer survival Data prep '''
 url = 'cancersurvivalbystage.xls'
 df_cancer = pd.read_excel(url, sheet_name='Table 1. Full Results',skiprows=5)
