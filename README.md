@@ -57,9 +57,12 @@ However if you want to fully replicate this analysis please see the last section
 
 ## Future Work
 
-'''
+```
 * set up environment.yml so others can use like this https://github.com/czbiohub/singlecell-dash/blob/master/README.md
 * get more ideas from the community at https://community.plot.ly/t/show-and-tell-community-thread-tada/7554
 * fix 3d charts axis
 * improve interactivity of outpatient tab
-'''
+* add footer with Font Awesome see https://github.com/jackdbd/dash-earthquakes
+* could add table from https://github.com/jackdbd/dash-earthquakes
+* could add some graphs from mapbox
+```
