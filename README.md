@@ -65,4 +65,5 @@ However if you want to fully replicate this analysis please see the last section
 * add footer with Font Awesome see https://github.com/jackdbd/dash-earthquakes
 * could add table from https://github.com/jackdbd/dash-earthquakes
 * could add some graphs from mapbox
+* think about layout for different devices
 ```
