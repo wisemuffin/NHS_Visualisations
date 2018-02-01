@@ -15,7 +15,8 @@ import json
 external_css = [
     # dash stylesheet
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
-    'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+    'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
 ]
 
 
@@ -225,7 +226,22 @@ app.layout = html.Div(children=[
     ),
     # call backs will modify this tab-output depending on which tab is selected
     html.Div(id='tab-output'),
-
+    
+    # # Dave playing around with bootstrap
+    # html.Div(children=
+    #     [html.Button(children='Dave', className='btn btn-warning btn-lg', type='button'),
+    #     html.Button(children='Dave', className='btn btn-info btn-xs', type='button'),
+    #     html.Button(children='Dave', className='btn btn-link btn-sm', type='button'),
+    #     html.Div(
+    #         children=[html.Button(children='Dave', className='btn btn-primary btn-sm', type='button'),
+    #             html.Button(children='Dave', className='btn btn-primary btn-sm', type='button')],
+    #         className='btn-group btn-group-lg',
+    #     ),
+    #     ],
+    #     className = 'jumbotron',
+    #     style = {'margin':'1em'}
+    # ),
+    
 
     # # navigation buttons
     # html.Div(
@@ -267,9 +283,12 @@ def set_tab_to_display(tab):
             
             html.Div(children=[
             
-
-                dcc.Graph(id='nhs-111-graph-3d', style={'display': 'inline-block', 'width':'40%'}),
-
+                html.Div(children=dcc.Graph(id='nhs-111-graph-3d'),
+                    className='col-lg-3 col-md-3 col-sm-6 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
+                    style={'display': 'inline-block'}
+                    ),
+    
+                # dcc.Graph(id='nhs-111-graph-3d', style={'display': 'inline-block', 'width':'40%'}),
                 
                 html.Div(children=[
                 
@@ -290,15 +309,19 @@ def set_tab_to_display(tab):
                             ), style={'display': 'inline-block', 'width':'40%'})
         
                     ],
-                    #style={'padding': '10px'}
+                    #style={'padding': '10px'},
+                    
                     ),
                     
                     
                     dcc.Graph(id='nhs-111-graph-bar', style={'display': 'inline-block', 'width':'1000px'}),
             
                 ],
-                style={'display': 'inline-block'}
-                )
+                style={'display': 'inline-block'},
+                className='col-lg-3 col-md-3 col-sm-6 col-xs-12',
+                ),
+                
+                html.Div(className='clearfix'), # bootstrap clearfix fixes up issue where certain resoloutions show overlapping divs
             
             ])
 
