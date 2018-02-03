@@ -813,7 +813,7 @@ def set_display_children(dimension_picker='Provider Code'):
 
     data = [go.Scatter3d(
         x=df_grouped_3d['Date'],
-        z=df_grouped_3d['Calls answered within 60 secs']/df_grouped_3d['Total calls offered']*100,
+        z=df_grouped_3d['Calls answered within 60 secs']/df_grouped_3d['Total calls offered'],
         y=df_grouped_3d['Provider Code'],
         mode='markers',
         marker=dict(
