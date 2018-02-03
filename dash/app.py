@@ -389,8 +389,16 @@ def set_tab_to_display(tab):
         ])
     elif tab == 1:
         tab_display = html.Div(children=[
-            html.H1(children=tabs[1]),
-            dcc.Markdown(children='''The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, appointments and attendances for patients admitted to NHS hospitals in England.'''),
+            dcc.Markdown(children='''
+                # title
+                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, 
+                appointments and attendances for patients admitted to NHS hospitals in England.
+                
+                > The layout is designed in the style operational dashboard.
+                '''.replace('  ', '').replace('title', tabs[1]),
+                className='container',
+                containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}
+                ),
 
             html.Div(children=[
                 dcc.Dropdown(
@@ -411,8 +419,17 @@ def set_tab_to_display(tab):
             
     elif tab == 3:
         tab_display = html.Div(children=[
-            html.H1(children=tabs[3]),
-            dcc.Markdown(children='''The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, appointments and attendances for patients admitted to NHS hospitals in England.'''),
+            dcc.Markdown(children='''
+                # title
+                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, 
+                appointments and attendances for patients admitted to NHS hospitals in England.
+
+                
+                > The layout is designed in the style operational dashboard.
+                '''.replace('  ', '').replace('title', tabs[3]),
+                className='container',
+                containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}
+                ),
             
             ## slider component not fully visable issue with dash core coponents version
             # html.Div(children=[
@@ -887,7 +904,7 @@ def set_display_children(dimension_picker='Provider Code'):
         ),
         # paper_bgcolor='rgb(243, 243, 243)',
         # plot_bgcolor='rgb(243, 243, 243)',
-        # showlegend=True
+        showlegend=True
     )
 
     return go.Figure(data=traces, layout=layout)
