@@ -414,7 +414,7 @@ def set_tab_to_display(tab):
 
                 
                 > The layout is designed in the style operational dashboard.
-                '''.replace('  ', '').replace('title', tabs[3]),
+                '''.replace('  ', '').replace('title', tabs[2]),
                 className='container',
                 ),
             
