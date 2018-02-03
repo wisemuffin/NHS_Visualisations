@@ -9,6 +9,8 @@ import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
 
+import qgrid
+
 # test imports
 import json
 
@@ -209,12 +211,13 @@ for css in external_css:
     app.css.append_css({'external_url': css})
 
 
-tabs = {1:'Outpatient Activity 2016-17', 2:'111 Program', 3: 'Cancer Survival'}
+tabs = {1:'111 Program', 2: 'Cancer Survival', 3:'Outpatient Activity 2016-17'}
 
 app.layout = html.Div(children=[
     html.Div([
         html.H1(children='NHS analysis', style = {'display': 'inline-block'}),
-        html.Img(src='http://survation.com/wp-content/uploads/2014/12/NHS-logo.jpg', style = {'position' : 'absolute', 'right':'0px', 'height':'5.5%', 'width':'5.5%', 'padding' : '10px'})
+        html.Img(src='http://survation.com/wp-content/uploads/2014/12/NHS-logo.jpg', alt="Computer Hope logo small",style = {'position' : 'absolute', 'right':'0px', 'height':'auto', 'width':'5.5%', 'padding' : '10px'})
+        # html.Img(src='http://survation.com/wp-content/uploads/2014/12/NHS-logo.jpg', style = {'position' : 'absolute', 'right':'0px', 'height':'5.5%', 'width':'5.5%', 'padding' : '10px'})
         ],
         style = {'display': 'inline-block'}
     ),
@@ -272,33 +275,8 @@ START : Tab tab-output
     [Input(component_id='tabs', component_property='value')]
 )
 def set_tab_to_display(tab):
-    if tab == 2:
+    if tab == 1:
         tab_display = html.Div(children=[
-            # html.H1(children=tabs[2]),
-            # html.Div(
-            #     dcc.Markdown('''
-            #     # Dave
-            #     The data is taken from the [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/). NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when:  
-            #     1. it’s not a life threatening situation, and therefore is less urgent than a 999 call
-            #     2. the GP isn’t an option, for instance when the caller is away from home
-            #     3. the caller feels they cannot wait and is simply unsure of which service they require
-            #     4. the caller requires reassurance about what to do next
-            #     * dave2
-            # 
-            #     > This interactive report is a rendition of a
-            #     > [New York Times original](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html).
-            #     > This app demonstrates how to build high-quality, interactive
-            #     > reports using the Dash framework in Python.
-            # 
-            #     * who is This
-            # 
-            #     ***
-            #     '''.replace('  ', '').replace('Dave', tabs[2])),
-            #     # className = 'jumbotron',
-            #     style = {'margin':'1em', 'padding': '0.5em'},
-            # ),
-    
-
             dcc.Markdown('''
                 # NHS's 111 Program
 
@@ -387,7 +365,7 @@ def set_tab_to_display(tab):
             ]),
 
         ])
-    elif tab == 1:
+    elif tab == 3:
         tab_display = html.Div(children=[
             dcc.Markdown(children='''
                 # title
@@ -395,7 +373,7 @@ def set_tab_to_display(tab):
                 appointments and attendances for patients admitted to NHS hospitals in England.
                 
                 > The layout is designed in the style operational dashboard.
-                '''.replace('  ', '').replace('title', tabs[1]),
+                '''.replace('  ', '').replace('title', tabs[3]),
                 className='container',
                 containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}
                 ),
@@ -408,16 +386,27 @@ def set_tab_to_display(tab):
                     ],
                     value = dimension_out_act_options[0],
                     #style={'width': '48%'}
-                )],
-                style={'width': '15%', 'display': 'inline-block'}
+                ),],
+                style={'width':'30%'},
+                className='container',
             ),
 
-            dcc.Graph(id='nhs-out-act-graph-bar'),
-            dcc.Graph(id='nhs-out-act-graph-donought')
+            dcc.Graph(id='nhs-out-act-graph-bar', className='container',),
+            
+            dcc.Markdown(children='''
+            * Women were the majority of outpatient attendances (54m vs 40m).
+            * Patients aged 60 to 79 years accounted for over 30 per cent of outpacients.
+            * Volume of outpatients have increase from 52 million in 2006-07 to 94 million in 2016-17.
+            '''.replace('  ', '').replace('title', tabs[1]),
+            className='container',
+            containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}
+            ),
+
+            dcc.Graph(id='nhs-out-act-graph-donought', className='container',),
 
             ])
             
-    elif tab == 3:
+    elif tab == 2:
         tab_display = html.Div(children=[
             dcc.Markdown(children='''
                 # title
@@ -428,7 +417,6 @@ def set_tab_to_display(tab):
                 > The layout is designed in the style operational dashboard.
                 '''.replace('  ', '').replace('title', tabs[3]),
                 className='container',
-                containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}
                 ),
             
             ## slider component not fully visable issue with dash core coponents version
@@ -444,33 +432,50 @@ def set_tab_to_display(tab):
             #     ],
             #     style={'hieght': '5000px'}
             # ),
-            html.Div(children=[    
-                 dcc.Dropdown(
-                    id = 'cancer_year_slider',
-                    options=[
-                        dict(label = cancer_years[i],value = cancer_years[i]) for i in range (0, len(cancer_years))
-                    ],
-                    value = cancer_years[0],
+            html.Div(children=[
+                html.Div(children=[
+                    dcc.Dropdown(
+                        id = 'cancer_year_slider',
+                        options=[
+                            dict(label = cancer_years[i],value = cancer_years[i]) for i in range (0, len(cancer_years))
+                        ],
+                        value = cancer_years[0],
+                        ),],
+                        style={'width':'30%'},
+                    ),
+                    dcc.Graph(id='nhs-cancer-graph-bar',
+                        style={'height': '310px'},
+                        hoverData={'points': [{'x': cancer_site[0]}]} # inital hover state
                     ),
                 ],
-                style={'width': '25%'}
+                # style={'width': '25%'}
+                className='container',
+                style= {'maxWidth': '900px', 'padding':'1em'},
             ),
             
 
-            dcc.Graph(id='nhs-cancer-graph-bar',
-                style={'height': '310px'},
-                hoverData={'points': [{'x': cancer_site[0]}]} # inital hover state
-            ),
+            # dcc.Graph(id='nhs-cancer-graph-bar',
+            #     style={'height': '310px'},
+            #     hoverData={'points': [{'x': cancer_site[0]}]} # inital hover state
+            # ),
             
             # dcc.Markdown(children=''' **Hover Data**
             # Hover over a cancer site to change graphs below'''),
-            dcc.Markdown(''' **Hover over** or **Click** a cancer site in the bar char above to change graphs below'''),
+            dcc.Markdown(children='''
+            
+            > **Hover over** a cancer site in the bar char above to change graphs below.
+            
+            '''.replace('  ', ''),
+            className='container',
+            ),
 
             html.Div(children=[
-                dcc.Graph(id='nhs-cancer-graph-line', style={'display': 'inline-block', 'width': '70%'}),
-                dcc.Graph(id='nhs-cancer-graph-donought', style={'display': 'inline-block', 'width': '25%'})
+                dcc.Graph(id='nhs-cancer-graph-line', style={'display': 'inline-block', 'width': '60%'}),
+                dcc.Graph(id='nhs-cancer-graph-donought', style={'display': 'inline-block', 'width': '40%'})
             ],
-            style={'display': 'inline-block','width': '100%'}
+            className='container',
+            style= {'maxWidth': '1700px', 'padding':'1em'},
+            # style={'display': 'inline-block','width': '100%'}
             ),
             ])
 
@@ -894,7 +899,8 @@ def set_display_children(dimension_picker='Provider Code'):
             gridwidth=1,
             zerolinecolor='rgb(255, 255, 255)',
             zerolinewidth=2,
-            tickformat=".0%"
+            tickformat=".0%",
+            
         ),
         margin=dict(
             l=40,
