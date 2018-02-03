@@ -10,18 +10,21 @@ View the [app on heroku](https://nhs-dash-app.herokuapp.com/)
 
 ## About
 
-[Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application. Examples of the interactivity include:
+[Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application. Other libraries or tools used:
 
-#### Outpatient Activity 2016-17 Tab
+* heroku - to deploy the site
+* font awesome - for social media icons on the footer
+* bootstrap - for custom css to help render layout on different devices
+* Jupyter Notebooks - to do the initall exploration
+* pandas - a python library that allows you to transform database
 
-*GIF TBC*
 
 #### 111 Program Tab
 
 3d plot of NHS areas across time and performance of calls answered within 60 seconds.
 
 
-![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.gif?raw=true)
+![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
 
 Time series with geographical dropdown filtering.  
 
@@ -31,7 +34,11 @@ Time series with geographical dropdown filtering.
 
 hover over the bar cancer site to filter the below time series and donought charts. 
 
-![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
+![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.gif?raw=true)
+
+#### Outpatient Activity 2016-17 Tab
+
+*GIF TBC*
 
 ## Jupyter Notebooks
 
@@ -50,7 +57,7 @@ However if you want to fully replicate this analysis please see the last section
 
 * Then [Jupyter Notebooks](http://jupyter.org/) are an excellent way for others to reproduce my analysis
 
-#### Alternatively you can run the dash application by skipping the Jupyer Step and completing the following steps
+#### Alternatively you can run the dash application by skipping the Juptyer Step and completing the following steps
 
 * Run the app with: $python app.py in the command line
 * Visit http:127.0.0.1:8050/ in your web browser (or what ever http site is shown after running the app.py)
@@ -58,11 +65,8 @@ However if you want to fully replicate this analysis please see the last section
 ## Future Work
 
 ```
-* set up environment.yml so others can use like this https://github.com/czbiohub/singlecell-dash/blob/master/README.md
-* get more ideas from the community at https://community.plot.ly/t/show-and-tell-community-thread-tada/7554
-* fix 3d charts axis
-* improve interactivity of outpatient tab
-* add footer with Font Awesome see https://github.com/jackdbd/dash-earthquakes
+* set up [environment.yml](https://github.com/czbiohub/singlecell-dash/blob/master/README.md) so others can use
+* get more ideas from the [plotly community](https://community.plot.ly/t/show-and-tell-community-thread-tada/7554)
 * could add table from https://github.com/jackdbd/dash-earthquakes
 * could add some graphs from mapbox
 * think about layout for different devices

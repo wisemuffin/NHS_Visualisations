@@ -468,6 +468,7 @@ def set_tab_to_display(tab):
             className='container',
             ),
 
+            # className='col-lg-8 col-centered col-md-12 col-sm-12 col-xs-12'
             html.Div(children=[
                 dcc.Graph(id='nhs-cancer-graph-line', style={'display': 'inline-block', 'width': '60%'}),
                 dcc.Graph(id='nhs-cancer-graph-donought', style={'display': 'inline-block', 'width': '40%'})
@@ -476,6 +477,7 @@ def set_tab_to_display(tab):
             style= {'maxWidth': '1700px', 'padding':'1em'},
             # style={'display': 'inline-block','width': '100%'}
             ),
+            
             ])
 
 
