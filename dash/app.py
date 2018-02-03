@@ -40,8 +40,10 @@ cancer_site = df_cancer['Cancer site'].unique()
 url = 'https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2017/12/NHS-111-MDS-time-series-to-2017-November-v2.xlsx'
 df = pd.read_excel(url, sheet_name='Raw', skiprows=5, header=0, )#, sheet_name='All Attendances - Male', skiprows=3, header=0)
 df.rename(columns={'Unnamed: 0':'Concat', 'Unnamed: 1':'Region', 'Unnamed: 2':'Provider Code', 'Unnamed: 3':'Date', 'Unnamed: 4':'Code', 'Unnamed: 5':'Area'}, inplace=True)
+df['Year'] = pd.DatetimeIndex(df['Date']).year
 
-metric_options = ['Population', 'Total calls offered', 'No calls answered', 'Calls answered within 60 secs','Ambulance dispatches']
+# metric_options = ['Population', 'Total calls offered', 'No calls answered', 'Calls answered within 60 secs','Ambulance dispatches']
+metric_options = ['Total calls offered', 'No calls answered', 'Calls answered within 60 secs','Ambulance dispatches']
 dimension_options = ['Area','Region','Provider Code']
 # Future development: Could allow users to select metrics
 metric_options_selected = metric_options
@@ -57,6 +59,7 @@ df_filtered = df[df[dimension_picker] == dimension_element_picker]
 df_grouped = df_filtered.groupby(by=[dimension_picker,'Date'], as_index=False).sum()
 
 df_table_111 = df.loc[0:20]
+
 
 ''' End : NHS 111 Data prep '''
 
@@ -271,29 +274,86 @@ START : Tab tab-output
 def set_tab_to_display(tab):
     if tab == 2:
         tab_display = html.Div(children=[
-            html.H1(children=tabs[2]),
-            dcc.Markdown(children='''The data is taken from the [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/). NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when:  
-            1. it’s not a life threatening situation, and therefore is less urgent than a 999 call  
-            2. the GP isn’t an option, for instance when the caller is away from home  
-            3. the caller feels they cannot wait and is simply unsure of which service they require  
-            4. the caller requires reassurance about what to do next 
-            '''),
+            # html.H1(children=tabs[2]),
+            # html.Div(
+            #     dcc.Markdown('''
+            #     # Dave
+            #     The data is taken from the [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/). NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when:  
+            #     1. it’s not a life threatening situation, and therefore is less urgent than a 999 call
+            #     2. the GP isn’t an option, for instance when the caller is away from home
+            #     3. the caller feels they cannot wait and is simply unsure of which service they require
+            #     4. the caller requires reassurance about what to do next
+            #     * dave2
+            # 
+            #     > This interactive report is a rendition of a
+            #     > [New York Times original](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html).
+            #     > This app demonstrates how to build high-quality, interactive
+            #     > reports using the Dash framework in Python.
+            # 
+            #     * who is This
+            # 
+            #     ***
+            #     '''.replace('  ', '').replace('Dave', tabs[2])),
+            #     # className = 'jumbotron',
+            #     style = {'margin':'1em', 'padding': '0.5em'},
+            # ),
+    
+
+            dcc.Markdown('''
+                # NHS's 111 Program
+
+                NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when
+                it’s not a life threatening situation, and therefore is less urgent than a 999 call.
+                The service benefits callers where the GP isn’t an option, for instance when the caller is away from home or 
+                the caller feels they cannot wait and is simply unsure of which service they require.
+
+                The data is taken from the 
+                [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/).
+                This tab demonstrates how to build high-quality, interactive
+                artical that analysis performance.
+
+                ***
+                '''.replace('  ', ''), className='container',
+                containerProps={'style': {'maxWidth': '650px'}}),
+
 
             
-            
             html.Div(children=[
-            
-                html.Div(children=dcc.Graph(id='nhs-111-graph-3d'),
-                    className='col-lg-3 col-md-3 col-sm-6 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
-                    style={'display': 'inline-block'}
+                dcc.Markdown('> What is going on with the 111 programs performance as it scalled up? One of the key KPIs for the 111 Program is anwsering calls as soon as possible. Lets focus on **% of calls answered in 60 seconds**.',
+                    className='container',
+                    containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
+                
+                
+                html.Div(children=dcc.Graph(id='nhs-111-graph-boxplot'),
+                    # className='col-lg-8 col-md-12 col-sm-12 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
+                    className='container',
                     ),
-    
-                # dcc.Graph(id='nhs-111-graph-3d', style={'display': 'inline-block', 'width':'40%'}),
+                dcc.Markdown('Peformance improved from inception to untill 2015. Lets investigate this performance decline.',
+                    className='container',
+                    containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
+                
+                
+                 dcc.Markdown('> How have care providers pefromed with the scalling of the NHS\'s 111 program?',
+                     className='container',
+                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
+                 
+                html.Div(children=dcc.Graph(id='nhs-111-graph-3d'),
+                    # className='col-lg-12 col-md-12 col-sm-12 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
+                    ),
+                dcc.Markdown('''
+                We can see that most care providers start off with subdued 40%-60% performance at the start of the program. 
+                In 2018 the program has matrured and most providers are above 80% and a large proportion are hitting 90%. 
+                We also see the from the size of the bubble representing **population** that [Care UK](http://www.careuk.com/) and [NWAS](http://www.nwas.nhs.uk/) two of the largest care providers join the 111 program early 2016
+                '''.replace('  ', ''),
+                    className='container',
+                    containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
+                    
+                dcc.Markdown('> What other metrics might we want to explore in future analysis',
+                    className='container',
+                    containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
                 
                 html.Div(children=[
-                
                     html.Div(children=[
-        
                         # dropdown to select the dimension
                         html.Div(dcc.Dropdown(
                             id = 'dimension_dropdown',
@@ -301,31 +361,30 @@ def set_tab_to_display(tab):
                                 dict(label = dimension_options[i],value = dimension_options[i]) for i in range (0, len(dimension_options))
                             ],
                             value = dimension_options[0],
-                        ), style={ 'display': 'inline-block', 'width':'20%'}),
-        
+                        ), style={ 'display': 'inline-block', 'width':'30%'}),
+                    
                         # dropdown of chilren of the selected dimension
                         html.Div(dcc.Dropdown(
                             id = 'dimension_element_dropdown',
-                            ), style={'display': 'inline-block', 'width':'40%'})
-        
+                            ), style={'display': 'inline-block', 'width':'60%'})
                     ],
-                    #style={'padding': '10px'},
-                    
+                    style={'width':'50%', 'margin':'0 auto'}
                     ),
                     
-                    
-                    dcc.Graph(id='nhs-111-graph-bar', style={'display': 'inline-block', 'width':'1000px'}),
-            
-                ],
-                style={'display': 'inline-block'},
-                className='col-lg-3 col-md-3 col-sm-6 col-xs-12',
+                    dcc.Graph(id='nhs-111-graph-bar',
+                        # className='col-lg-8 col-md-12 col-sm-12 col-xs-12',
+                    ),],
+                    # className='col-lg-8 col-centered col-md-12 col-sm-12 col-xs-12',
+                    className='container',  
                 ),
+                
+                dcc.Markdown('Volumes of calls havent grown much since 2015. This suggest that other factors such as capacity, headcount, or moral may be to blame.',
+                    className='container',
+                    containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
                 
                 html.Div(className='clearfix'), # bootstrap clearfix fixes up issue where certain resoloutions show overlapping divs
             
-            ])
-
-
+            ]),
 
         ])
     elif tab == 1:
@@ -710,7 +769,7 @@ def update_graph(dimension_picker, dimension_element_picker):
         barmode='group',#'group', # switch between stack and group
         # title='<b>NHS 111 calls where  </b>'+ dimension_picker+' = '+dimension_element_picker,
         yaxis = dict(
-            type = 'log', # switches to a logarythmic scale
+            # type = 'log', # switches to a logarythmic scale
             title='<i>Volume</i>'
         ),
 #         xaxis=dict(
@@ -721,17 +780,18 @@ def update_graph(dimension_picker, dimension_element_picker):
     return go.Figure(data=data, layout=layout)
 
 
+
 @app.callback(
     Output(component_id='nhs-111-graph-3d', component_property='figure'),
     [Input(component_id='dimension_dropdown', component_property='value')]
 )
-def set_display_children(dimension_picker='Area'):
-    df_grouped_3d = df.groupby(by=['Date', dimension_picker], as_index=False).sum()
+def set_display_children(dimension_picker='Provider Code'):
+    df_grouped_3d = df.groupby(by=['Date', 'Provider Code'], as_index=False).sum()
 
     data = [go.Scatter3d(
         x=df_grouped_3d['Date'],
         z=df_grouped_3d['Calls answered within 60 secs']/df_grouped_3d['Total calls offered']*100,
-        y=df_grouped_3d['Area'],
+        y=df_grouped_3d['Provider Code'],
         mode='markers',
         marker=dict(
             size=df_grouped_3d['Total calls offered']/8000, # visualises the volume of calls
@@ -747,7 +807,7 @@ def set_display_children(dimension_picker='Area'):
                     [0.5, "rgb(37,180,167)"], [0.65, "rgb(17,123,215)"], [1, "rgb(54,50,153)"] ]
                     
     xlabel = ''
-    ylabel = 'Area'
+    ylabel = 'Provider Code'
     zlabel = '% Calls answered within 60 secs'
     
     def axis_template_3d( title, type='linear' ):
@@ -762,23 +822,75 @@ def set_display_children(dimension_picker='Area'):
 
 
     layout = go.Layout(
-        margin=dict(
-            l=0,
-            r=0,
-            b=0,
-            t=0
-        ),
         scene = dict(
-                # textangle='0.45' 
-                # xaxis = axis_template_3d( xlabel ),
-                # yaxis = axis_template_3d( ylabel ),
-                zaxis = axis_template_3d( zlabel ),
-                )
+            xaxis = dict(
+                title=''),
+            yaxis = dict(
+                title='Provider Code'),
+            zaxis = dict(
+                tickformat=".0%",
+                title='Calls answered within 60 secs'),
+                ),
+                margin=dict(l=0, r=0,b=0,t=0),
         )
 
     
     return go.Figure(data=data, layout=layout)
+    
+@app.callback(
+    Output(component_id='nhs-111-graph-boxplot', component_property='figure'),
+    [Input(component_id='dimension_dropdown', component_property='value')]
+)
+def set_display_children(dimension_picker='Provider Code'):
+    df_grouped_box = df.groupby(by=['Year', 'Provider Code'], as_index=False).sum()
+    df_grouped_box['% Calls answered within 60 secs'] = df_grouped_box['Calls answered within 60 secs']/df_grouped_box['Total calls offered']
+    df_grouped_box = df_grouped_box[['Year', 'Provider Code', '% Calls answered within 60 secs']]
 
+
+    colours = ['rgba(93, 164, 214, 0.5)', 'rgba(255, 144, 14, 0.5)', 'rgba(44, 160, 101, 0.5)', 'rgba(255, 65, 54, 0.5)', 'rgba(207, 114, 255, 0.5)', 'rgba(127, 96, 0, 0.5)', 'rgba(127, 150, 220, 0.5)', 'rgba(127, 300, 50, 0.5)']
+
+    traces = []
+
+    for date, cls in zip(df_grouped_box['Year'].unique(), colours):
+            traces.append(go.Box(
+                y=df_grouped_box[df_grouped_box['Year'] == date]['% Calls answered within 60 secs'],
+                name=date,
+                boxpoints='all',
+                jitter=0.5,
+                whiskerwidth=0.2,
+                fillcolor=cls,
+                marker=dict(
+                    size=2,
+                ),
+                line=dict(width=1),
+            ))
+
+
+    layout = go.Layout(
+        title='% Calls answered within 60 secs',
+        yaxis=dict(
+            autorange=True,
+            showgrid=True,
+            zeroline=True,
+            dtick=5,
+            gridcolor='rgb(255, 255, 255)',
+            gridwidth=1,
+            zerolinecolor='rgb(255, 255, 255)',
+            zerolinewidth=2,
+            tickformat=".0%"
+        ),
+        margin=dict(
+            l=40,
+            r=30,
+            b=80,
+            t=100,
+        ),
+        # paper_bgcolor='rgb(243, 243, 243)',
+        # plot_bgcolor='rgb(243, 243, 243)',
+        # showlegend=True
+    )
+
+    return go.Figure(data=traces, layout=layout)
 
 """
 END: NHS_111_tab-output
