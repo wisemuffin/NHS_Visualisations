@@ -24,27 +24,26 @@ View the [app on heroku](https://nhs-dash-app.herokuapp.com/)
 3d plot of NHS areas across time and performance of calls answered within 60 seconds.
 
 
-![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-111-dash.gif?raw=true)
+![Demo2](https://github.com/wisemuffin/CS50project/blob/master/documenation/111%20program%203d%20chart.gif)
 
-Time series with geographical dropdown filtering.  
-
-*GIF TBC*
 
 #### Cancer Survival Tab
 
 hover over the bar cancer site to filter the below time series and donought charts. 
 
-![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nhs-cancer-dash.gif?raw=true)
+![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/cancer%20dashboard.gif)
 
 #### Outpatient Activity 2016-17 Tab
 
-*GIF TBC*
+![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/OutPat%20bar%20chart.gif)
 
 ## Jupyter Notebooks
 
 I used [Jupyter Notebooks](http://jupyter.org/) and the [Pandas](https://pandas.pydata.org/) library to initially explore data sets.  
 
 [Jupyter Notebooks](http://jupyter.org/) only render static html images on github. To view the jupyter notebooks i recommend pasting the link of the github notebook into [nbviewer](https://nbviewer.jupyter.org/) e.g. https://nbviewer.jupyter.org/github/wisemuffin/CS50project/blob/master/jupyter%20notebooks/NHS_111_Programme.ipynb
+
+![Demo](https://github.com/wisemuffin/CS50project/blob/master/documenation/nbviewer%20jupyter.gif)
 
 However if you want to fully replicate this analysis please see the last section on how to replicate this analysis on your own machine.  
 
