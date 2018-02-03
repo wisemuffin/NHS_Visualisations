@@ -44,7 +44,7 @@ hover over the bar cancer site to filter the below time series and donought char
 
 I used [Jupyter Notebooks](http://jupyter.org/) and the [Pandas](https://pandas.pydata.org/) library to initially explore data sets.  
 
-[Jupyter Notebooks](http://jupyter.org/) only render static html images on github. To view the jupyter notebooks i recommend pasting the link of the github notebook into [nbviewer](https://nbviewer.jupyter.org/) e.g. https://github.com/wisemuffin/CS50project/blob/master/jupyter%20notebooks/NHS_111_Programme.ipynb.
+[Jupyter Notebooks](http://jupyter.org/) only render static html images on github. To view the jupyter notebooks i recommend pasting the link of the github notebook into [nbviewer](https://nbviewer.jupyter.org/) e.g. https://nbviewer.jupyter.org/github/wisemuffin/CS50project/blob/master/jupyter%20notebooks/NHS_111_Programme.ipynb
 
 However if you want to fully replicate this analysis please see the last section on how to replicate this analysis on your own machine.  
 
