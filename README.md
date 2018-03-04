@@ -10,7 +10,7 @@ View the [app on heroku](https://nhs-dash-app.herokuapp.com/)
 
 ## About
 
-![Demo1](https://github.com/wisemuffin/CS50project)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://github.com/wisemuffin/CS50project)
 
 #### Implementation
 
