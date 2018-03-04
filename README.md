@@ -10,6 +10,10 @@ View the [app on heroku](https://nhs-dash-app.herokuapp.com/)
 
 ## About
 
+![Demo1](https://github.com/wisemuffin/CS50project)
+
+#### Implementation
+
 [Dash](https://plot.ly/dash) and [Plotly](https://plot.ly/) were the two key technologies i used to build this application. Other libraries or tools used:
 
 * heroku - to deploy the site
