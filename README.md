@@ -1,4 +1,4 @@
-# CS50project
+# CS50project - NHS Visualisation using Plotly and Dash
 David Griffiths's final project for the Harvard CS50 course. 
 
 > 
