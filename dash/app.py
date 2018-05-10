@@ -65,8 +65,7 @@ df_table_111 = df.loc[0:20]
 ''' End : NHS 111 Data prep '''
 
 ''' Start : NHS Hospital Outpatient Activity data prep '''
-
-url = 'https://digital.nhs.uk/media/34230/Hospital-Outpatient-Activity-2016-17-All-attendances/default/hosp-epis-stat-outp-all-atte-2016-17-tab.xls'
+url = 'https://files.digital.nhs.uk/publication/c/i/hosp-epis-stat-outp-all-atte-2016-17-tab.xls'
 df_male = pd.read_excel(url, sheet_name='All Attendances - Male', skiprows=3, header=0)#names=("code", "provider_desc", "male", "female", "unkown", "total"))
 df_female = pd.read_excel(url, sheet_name='All Attendances - Female', skiprows=3, header=0)#names=("code", "provider_desc", "male", "female", "unkown", "total"))
 
@@ -142,12 +141,12 @@ def create_footer():
     #         'padding': '0.5em'
     #     }
     # )
-    
+
     hashtags = 'plotly,dash,nhs'
     tweet = 'Dash UK NHS, a cool dashboard with Plotly Dash!'
     twitter_href = 'https://twitter.com/intent/tweet?hashtags={}&text={}'\
         .format(hashtags, tweet)
-        
+
     twitter = html.A(
         children=html.I(children=[], className='fa fa-twitter fa-3x'),
         title='Tweet me!', href=twitter_href, target='_blank')
@@ -156,7 +155,7 @@ def create_footer():
         children=html.I(children=[], className='fa fa-linkedin-square fa-3x'),
         title='My Linkedin',
         href='https://www.linkedin.com/in/david-griffiths-5a9387a1/', target='_blank')
-        
+
     github = html.A(
         children=html.I(children=[], className='fa fa-github fa-3x'),
         title='Repo on GitHub',
@@ -190,12 +189,12 @@ def create_footer():
         'background-color': theme['background-color'],
         'padding': '0.5em',
         'width': '100%',
-        'position': 'relative',    
+        'position': 'relative',
     }
     footer = html.Footer(div, style=footer_style)
     return footer
 
-    
+
 '''
 Build the App
 '''
@@ -231,7 +230,7 @@ app.layout = html.Div(children=[
     ),
     # call backs will modify this tab-output depending on which tab is selected
     html.Div(id='tab-output'),
-    
+
     # # Dave playing around with bootstrap
     # html.Div(children=
     #     [html.Button(children='Dave', className='btn btn-warning btn-lg', type='button'),
@@ -246,7 +245,7 @@ app.layout = html.Div(children=[
     #     className = 'jumbotron',
     #     style = {'margin':'1em'}
     # ),
-    
+
 
     # # navigation buttons
     # html.Div(
@@ -281,10 +280,10 @@ def set_tab_to_display(tab):
 
                 NHS 111 is available 24 hours a day, 7 days a week, 365 days a year to respond to people’s health care needs when
                 it’s not a life threatening situation, and therefore is less urgent than a 999 call.
-                The service benefits callers where the GP isn’t an option, for instance when the caller is away from home or 
+                The service benefits callers where the GP isn’t an option, for instance when the caller is away from home or
                 the caller feels they cannot wait and is simply unsure of which service they require.
 
-                The data is taken from the 
+                The data is taken from the
                 [NHS 111 Minimum Data Set 2017-18](https://www.england.nhs.uk/statistics/statistical-work-areas/nhs-111-minimum-data-set/nhs-111-minimum-data-set-2017-18/).
                 This tab demonstrates how to build high-quality, interactive
                 artical that analysis performance.
@@ -294,13 +293,13 @@ def set_tab_to_display(tab):
                 containerProps={'style': {'maxWidth': '650px'}}),
 
 
-            
+
             html.Div(children=[
                 dcc.Markdown('> What is going on with the 111 programs performance as it scalled up? One of the key KPIs for the 111 Program is anwsering calls as soon as possible. Lets focus on **% of calls answered in 60 seconds**.',
                     className='container',
                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                
-                
+
+
                 html.Div(children=dcc.Graph(id='nhs-111-graph-boxplot'),
                     # className='col-lg-8 col-md-12 col-sm-12 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
                     className='container',
@@ -308,27 +307,27 @@ def set_tab_to_display(tab):
                 dcc.Markdown('Peformance improved from inception to untill 2015. Lets investigate this performance decline.',
                     className='container',
                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                
-                
+
+
                  dcc.Markdown('> How have care providers pefromed with the scalling of the NHS\'s 111 program?',
                      className='container',
                      containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                 
+
                 html.Div(children=dcc.Graph(id='nhs-111-graph-3d'),
                     # className='col-lg-12 col-md-12 col-sm-12 col-xs-12', # bootstrp used to arange space on the screen based on the device (iphone/tablet/pc screen size)
                     ),
                 dcc.Markdown('''
-                We can see that most care providers start off with subdued 40%-60% performance at the start of the program. 
-                In 2018 the program has matrured and most providers are above 80% and a large proportion are hitting 90%. 
+                We can see that most care providers start off with subdued 40%-60% performance at the start of the program.
+                In 2018 the program has matrured and most providers are above 80% and a large proportion are hitting 90%.
                 We also see the from the size of the bubble representing **population** that [Care UK](http://www.careuk.com/) and [NWAS](http://www.nwas.nhs.uk/) two of the largest care providers join the 111 program early 2016
                 '''.replace('  ', ''),
                     className='container',
                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                    
+
                 dcc.Markdown('> What other metrics might we want to explore in future analysis',
                     className='container',
                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                
+
                 html.Div(children=[
                     html.Div(children=[
                         # dropdown to select the dimension
@@ -339,7 +338,7 @@ def set_tab_to_display(tab):
                             ],
                             value = dimension_options[0],
                         ), style={ 'display': 'inline-block', 'width':'30%'}),
-                    
+
                         # dropdown of chilren of the selected dimension
                         html.Div(dcc.Dropdown(
                             id = 'dimension_element_dropdown',
@@ -347,20 +346,20 @@ def set_tab_to_display(tab):
                     ],
                     style={'width':'50%', 'margin':'0 auto'}
                     ),
-                    
+
                     dcc.Graph(id='nhs-111-graph-bar',
                         # className='col-lg-8 col-md-12 col-sm-12 col-xs-12',
                     ),],
                     # className='col-lg-8 col-centered col-md-12 col-sm-12 col-xs-12',
-                    className='container',  
+                    className='container',
                 ),
-                
+
                 dcc.Markdown('Volumes of calls havent grown much since 2015. This suggest that other factors such as capacity, headcount, or moral may be to blame.',
                     className='container',
                     containerProps={'style': {'maxWidth': '650px', 'padding':'1em'}}),
-                
+
                 html.Div(className='clearfix'), # bootstrap clearfix fixes up issue where certain resoloutions show overlapping divs
-            
+
             ]),
 
         ])
@@ -368,9 +367,9 @@ def set_tab_to_display(tab):
         tab_display = html.Div(children=[
             dcc.Markdown(children='''
                 # title
-                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, 
+                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions,
                 appointments and attendances for patients admitted to NHS hospitals in England.
-                
+
                 > The layout is designed in the style operational dashboard.
                 '''.replace('  ', '').replace('title', tabs[3]),
                 className='container',
@@ -391,7 +390,7 @@ def set_tab_to_display(tab):
             ),
 
             dcc.Graph(id='nhs-out-act-graph-bar', className='container',),
-            
+
             dcc.Markdown(children='''
             * Women were the majority of outpatient attendances (54m vs 40m).
             * Patients aged 60 to 79 years accounted for over 30 per cent of outpacients.
@@ -404,20 +403,20 @@ def set_tab_to_display(tab):
             dcc.Graph(id='nhs-out-act-graph-donought', className='container',),
 
             ])
-            
+
     elif tab == 2:
         tab_display = html.Div(children=[
             dcc.Markdown(children='''
                 # title
-                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions, 
+                The data is taken from the [Hospital Episodes Statistics (HES)](https://digital.nhs.uk/catalogue/PUB30154) data warehouse. HES contains records of all admissions,
                 appointments and attendances for patients admitted to NHS hospitals in England.
 
-                
+
                 > The layout is designed in the style operational dashboard.
                 '''.replace('  ', '').replace('title', tabs[2]),
                 className='container',
                 ),
-            
+
             ## slider component not fully visable issue with dash core coponents version
             # html.Div(children=[
             #     dcc.Slider(
@@ -451,19 +450,19 @@ def set_tab_to_display(tab):
                 className='container',
                 style= {'maxWidth': '900px', 'padding':'1em'},
             ),
-            
+
 
             # dcc.Graph(id='nhs-cancer-graph-bar',
             #     style={'height': '310px'},
             #     hoverData={'points': [{'x': cancer_site[0]}]} # inital hover state
             # ),
-            
+
             # dcc.Markdown(children=''' **Hover Data**
             # Hover over a cancer site to change graphs below'''),
             dcc.Markdown(children='''
-            
+
             > **Hover over** a cancer site in the bar char above to change graphs below.
-            
+
             '''.replace('  ', ''),
             className='container',
             ),
@@ -477,7 +476,7 @@ def set_tab_to_display(tab):
             style= {'maxWidth': '1700px', 'padding':'1em'},
             # style={'display': 'inline-block','width': '100%'}
             ),
-            
+
             ])
 
 
@@ -531,8 +530,8 @@ def update_graph_cancer_survival_1(date_filter):
 # def testhoverdatafunc(hoverData):
 #     # return json.dumps(hoverData, indent=2)
 #     return str(type(hoverData['points'][0]['x']))
-    
-    
+
+
 @app.callback(
     Output(component_id='nhs-cancer-graph-line', component_property='figure'),
     [Input(component_id='nhs-cancer-graph-bar', component_property='hoverData'),
@@ -551,7 +550,7 @@ def update_graph_cancer_survival_2(hoverData):
       y = df_grouped[df_grouped['Cancer site'] == cancer_site_filter]['Number of tumours'],
       name = 'Number of tumours',
       opacity = 0.8),
-            
+
             go.Scatter(
       mode = 'lines',
       x = df_grouped['Cohort'].unique(),
@@ -601,7 +600,7 @@ def update_graph_cancer_survival_3(x, y):
     df_filtered = df_cancer[(df_cancer['Cohort'] == date_filter) & (df_cancer['Cancer site'] == cancer_site_filter)]
     df_grouped = df_filtered.groupby(by=['Stage'], as_index=False).sum()
     df_grouped.dropna(inplace=True)
-    
+
     #calculates the whole value of the pie chart
     centre_value_pie = df_grouped['Number of tumours'].sum()
 
@@ -823,16 +822,16 @@ def set_display_children(dimension_picker='Provider Code'):
             opacity=0.8
         )
     )]
-    
+
     BACKGROUND = 'rgb(230, 230, 230)'
-    
+
     COLORSCALE = [ [0, "rgb(244,236,21)"], [0.3, "rgb(249,210,41)"], [0.4, "rgb(134,191,118)"],
                     [0.5, "rgb(37,180,167)"], [0.65, "rgb(17,123,215)"], [1, "rgb(54,50,153)"] ]
-                    
+
     xlabel = ''
     ylabel = 'Provider Code'
     zlabel = '% Calls answered within 60 secs'
-    
+
     def axis_template_3d( title, type='linear' ):
         return dict(
             showbackground = True,
@@ -857,9 +856,9 @@ def set_display_children(dimension_picker='Provider Code'):
                 margin=dict(l=0, r=0,b=0,t=0),
         )
 
-    
+
     return go.Figure(data=data, layout=layout)
-    
+
 @app.callback(
     Output(component_id='nhs-111-graph-boxplot', component_property='figure'),
     [Input(component_id='dimension_dropdown', component_property='value')]
@@ -901,7 +900,7 @@ def set_display_children(dimension_picker='Provider Code'):
             zerolinecolor='rgb(255, 255, 255)',
             zerolinewidth=2,
             tickformat=".0%",
-            
+
         ),
         margin=dict(
             l=40,
